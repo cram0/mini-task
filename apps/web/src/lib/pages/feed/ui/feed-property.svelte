@@ -1,7 +1,7 @@
 <script lang="ts">
   import { CashSVG, DimensionsSVG } from '~ui/assets'
   import type { Property } from '~core/database'
-  import { CommuteTime } from '$lib/widgets'
+  import { CommuteTimes } from '~ui/components'
 
   export let property: Property
 </script>
@@ -44,12 +44,10 @@
       {#if property.area}
         <span class=".flex .gap-2">
           <DimensionsSVG />
-          <span>
-            <b>{property.area}</b> m²
-          </span>
+          <b>{property.area}</b> m²
         </span>
       {/if}
     </div>
   </div>
-  <CommuteTime />
+  <CommuteTimes />
 </div>
