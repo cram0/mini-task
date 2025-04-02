@@ -39,7 +39,7 @@
     walking: 30,
     biking: 45,
     car: 60,
-    publicTransport: 90,
+    transit: 90,
   }
 
   // Address input
@@ -106,7 +106,7 @@
       walking: 30,
       biking: 45,
       car: 60,
-      publicTransport: 90,
+      transit: 90,
     }
     // Initialize the addresses section as collapsed
     showSavedAddresses = false
@@ -228,16 +228,15 @@
 
               <!-- Public Transport -->
               <div class=".flex .flex-col .gap-1">
-                <label class=".text-sm" for="publicTransport"
-                  >🚌 Public Transport</label
+                <label class=".text-sm" for="transit">🚌 Public Transport</label
                 >
                 <input
                   type="number"
-                  id="publicTransport"
+                  id="transit"
                   min="1"
                   max="180"
                   class="uprent .rounded-lg .border .border-gray-300 .p-2 focus:.border-primary"
-                  bind:value={commutePrefs.publicTransport}
+                  bind:value={commutePrefs.transit}
                 />
               </div>
             </div>
@@ -296,7 +295,7 @@
                         >🚶 {addressItem.commutePrefs.walking}min | 🚲 {addressItem
                           .commutePrefs.biking}min | 🚗 {addressItem
                           .commutePrefs.car}min | 🚌 {addressItem.commutePrefs
-                          .publicTransport}min</span
+                          .transit}min</span
                       >
                     </div>
                   </div>
@@ -384,7 +383,7 @@
                     <span class=".text-xs .text-gray-400">
                       🚶 {item.commutePrefs.walking}min | 🚲 {item.commutePrefs
                         .biking}min | 🚗 {item.commutePrefs.car}min | 🚌 {item
-                        .commutePrefs.publicTransport}min
+                        .commutePrefs.transit}min
                     </span>
                   </div>
                 </button>

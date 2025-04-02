@@ -6,7 +6,7 @@ export interface CommutePreference {
   walking: number
   biking: number
   car: number
-  publicTransport: number
+  transit: number
 }
 
 export interface AddressWithPreferences {
