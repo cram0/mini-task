@@ -1,4 +1,5 @@
 /// <reference types="chrome"/>
+import type { AddressWithPreferences } from '~core/types/address'
 
 const isExtension = () => {
   return (
@@ -54,7 +55,7 @@ const getStorage = () => {
   }
 }
 
-const getSavedAddresses = async (): Promise<string[]> => {
+const getSavedAddresses = async (): Promise<AddressWithPreferences[]> => {
   const storage = getStorage()
   const savedAddresses = await storage.get('savedAddresses')
 
@@ -72,34 +73,54 @@ const getSavedAddresses = async (): Promise<string[]> => {
   }
 }
 
-const setSavedAddresses = async (addresses: string[]) => {
+const setSavedAddresses = async (addresses: AddressWithPreferences[]) => {
   const storage = getStorage()
   const addressesStr = JSON.stringify(addresses)
   await storage.set('savedAddresses', addressesStr)
 }
 
-const addAddress = async (address: string) => {
+const addAddress = async (address: AddressWithPreferences): Promise<void> => {
   const savedAddresses = await getSavedAddresses()
   const addresses = savedAddresses || []
-  if (!addresses.includes(address)) {
+
+  const addressExists = addresses.some(
+    addr => JSON.stringify(addr) === JSON.stringify(address),
+  )
+
+  if (!addressExists) {
     addresses.push(address)
     await setSavedAddresses(addresses)
   }
 }
 
-const removeAddress = async (address: string) => {
+const removeAddress = async (
+  address: AddressWithPreferences,
+): Promise<void> => {
   const savedAddresses = await getSavedAddresses()
   const addresses = savedAddresses || []
-  const index = addresses.indexOf(address)
+
+  const index = addresses.findIndex(
+    addr => JSON.stringify(addr) === JSON.stringify(address),
+  )
+
   if (index !== -1) {
     addresses.splice(index, 1)
     await setSavedAddresses(addresses)
   }
 }
 
-export default {
-  getSavedAddresses,
-  setSavedAddresses,
-  addAddress,
-  removeAddress,
+const addressService = {
+  async getSavedAddresses(): Promise<AddressWithPreferences[]> {
+    return await getSavedAddresses()
+  },
+
+  async addAddress(address: AddressWithPreferences): Promise<void> {
+    await addAddress(address)
+  },
+
+  async removeAddress(address: AddressWithPreferences): Promise<void> {
+    await removeAddress(address)
+  },
 }
+
+export default addressService
