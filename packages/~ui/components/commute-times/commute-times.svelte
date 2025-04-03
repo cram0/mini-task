@@ -9,9 +9,7 @@
     RefreshSVG,
     RouteSVG,
     UprentLogoSVG,
-    UprentSVG,
     PencilPlusSVG,
-    PlusSVG,
   } from '~ui/assets'
   import { Button } from '~ui/components'
   import { fade, slide } from 'svelte/transition'
@@ -139,6 +137,10 @@
       console.error('Error saving address:', error)
     }
   }
+
+  const isExceedingTime = (duration: number, maxDuration: number): boolean => {
+    return duration > maxDuration
+  }
 </script>
 
 {#if addressModalOpened}
@@ -187,7 +189,6 @@
             </h2>
 
             <div class=".grid .grid-cols-2 .gap-3">
-              <!-- Walking -->
               <div class=".flex .flex-col .gap-1">
                 <label class=".text-sm" for="walking">🚶 Walking</label>
                 <input
@@ -200,7 +201,6 @@
                 />
               </div>
 
-              <!-- Biking -->
               <div class=".flex .flex-col .gap-1">
                 <label class=".text-sm" for="biking">🚲 Biking</label>
                 <input
@@ -213,7 +213,6 @@
                 />
               </div>
 
-              <!-- Car -->
               <div class=".flex .flex-col .gap-1">
                 <label class=".text-sm" for="car">🚗 Car</label>
                 <input
@@ -226,10 +225,8 @@
                 />
               </div>
 
-              <!-- Public Transport -->
               <div class=".flex .flex-col .gap-1">
-                <label class=".text-sm" for="transit">🚌 Public Transport</label
-                >
+                <label class=".text-sm" for="transit">🚌 Transit</label>
                 <input
                   type="number"
                   id="transit"
@@ -242,7 +239,7 @@
             </div>
           </div>
 
-          <div
+          <button
             class="uprent .mb-1 .flex .cursor-pointer .items-center .justify-between .border-b .border-gray-200 .bg-white .pb-1 .text-lg .font-semibold"
             on:click={() => {
               showSavedAddresses = !showSavedAddresses
@@ -252,24 +249,24 @@
                 showSavedAddresses = !showSavedAddresses
               }
             }}
-            role="toolbar"
-            tabindex="-1"
+            aria-expanded={showSavedAddresses}
           >
             <span>My addresses</span>
             <span
-              class=".text-xl .text-gray-500 .transition-transform"
-              style="transform: rotate({showSavedAddresses ? '90deg' : '0deg'})"
+              class=".text-xl .text-gray-500 .transition-transform {showSavedAddresses
+                ? '.rotate-90'
+                : ''}"
             >
-              &#8250;
+              {'>'}
             </span>
-          </div>
+          </button>
 
           {#if showSavedAddresses}
             <div
               class=".flex .max-h-64 .flex-col .gap-2 .overflow-y-auto .pb-2 .pr-1 .pt-4"
               transition:slide={{ duration: 200 }}
             >
-              {#if savedAddresses}
+              {#if savedAddresses != null}
                 {#each savedAddresses as addressItem}
                   <div
                     class="uprent .mb-2 .flex .flex-col .border-b .border-gray-100 .pb-2"
@@ -292,9 +289,9 @@
                       class=".mt-1 .flex .flex-wrap .gap-2 .text-xs .text-gray-500"
                     >
                       <span
-                        >🚶 {addressItem.commutePrefs.walking}min | 🚲 {addressItem
-                          .commutePrefs.biking}min | 🚗 {addressItem
-                          .commutePrefs.car}min | 🚌 {addressItem.commutePrefs
+                        >🚶 {addressItem.commutePrefs.walking}min / 🚲 {addressItem
+                          .commutePrefs.biking}min / 🚗 {addressItem
+                          .commutePrefs.car}min / 🚌 {addressItem.commutePrefs
                           .transit}min</span
                       >
                     </div>
@@ -381,8 +378,8 @@
                   <div class=".flex .w-full .flex-col">
                     <span class=".flex .flex-row">{item.address}</span>
                     <span class=".text-xs .text-gray-400">
-                      🚶 {item.commutePrefs.walking}min | 🚲 {item.commutePrefs
-                        .biking}min | 🚗 {item.commutePrefs.car}min | 🚌 {item
+                      🚶 {item.commutePrefs.walking}min / 🚲 {item.commutePrefs
+                        .biking}min / 🚗 {item.commutePrefs.car}min / 🚌 {item
                         .commutePrefs.transit}min
                     </span>
                   </div>

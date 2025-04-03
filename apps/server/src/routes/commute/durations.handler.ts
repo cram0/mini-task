@@ -9,7 +9,8 @@ const resDTO = t.Object({
 
 export const commuteDurationsEndpointHandler = app.get(
   '/durations',
-  ({ res }) => {
+  ({ res, params }) => {
+    console.log('commute durations endpoint called', params)
     // mock commute times
     const durations: Durations = {
       walking: randomInt(45, 90),
@@ -18,8 +19,16 @@ export const commuteDurationsEndpointHandler = app.get(
       transit: randomInt(10, 30),
     }
 
+    const preferredCommuteTimes: Durations = {
+      walking: randomInt(30, 60),
+      biking: randomInt(20, 50),
+      driving: randomInt(10, 20),
+      transit: randomInt(10, 20),
+    }
+
     return res.ok({
       durations,
+      preferredCommuteTimes,
     })
   },
   { response: res(resDTO) },

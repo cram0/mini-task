@@ -11,7 +11,12 @@
     "cookies",
     "storage"
   ],
-  "host_permissions": ["<all_urls>"],
+  "host_permissions": [
+    "https://www.pararius.com/",
+    "https://www.pararius.nl/",
+    "https://www.kamernet.com/",
+    "https://www.kamernet.nl/"
+  ],
   "action": {
     "default_icon": "icons/192x192.png"
   },

@@ -5,8 +5,8 @@ class ParariusController extends ApplicationResultPageController {
     super()
   }
 
-  async onPageMutation() {
-    //
+  onPageMutation() {
+    // couldnt find the result page lol
   }
 }
 

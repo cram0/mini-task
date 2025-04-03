@@ -6,9 +6,41 @@ const getSavedAddresses = async () => {
   return savedAddresses
 }
 
+const defaultCommutePrefs = [
+  {
+    address: 'Eindhoven, Netherlands',
+    commutePrefs: {
+      walking: 30,
+      biking: 25,
+      car: 35,
+      transit: 50,
+    },
+  },
+  {
+    address: 'Amsterdam, Netherlands',
+    commutePrefs: {
+      walking: 20,
+      biking: 15,
+      car: 30,
+      transit: 45,
+    },
+  },
+  {
+    address: 'Utrecht, Netherlands',
+    commutePrefs: {
+      walking: 20,
+      biking: 25,
+      car: 25,
+      transit: 50,
+    },
+  },
+]
+
 chrome.runtime.onInstalled.addListener(() => {
   console.log('Extension installed')
-  chrome.storage.local.set({ savedAddresses: [] })
+  chrome.storage.local.set({
+    savedAddresses: defaultCommutePrefs,
+  })
   console.log('Initialized saved addresses in local storage')
 })
 
